@@ -7,8 +7,8 @@ import (
 	"log"
 	"strings"
 
-	"github.com/gophergala2016/supbot/Godeps/_workspace/src/github.com/nlopes/slack"
-	"github.com/gophergala2016/supbot/lib/hal"
+	"github.com/soulshake/supbot/Godeps/_workspace/src/github.com/nlopes/slack"
+	"github.com/soulshake/supbot/lib/hal"
 )
 
 // Slack represets a Slack bot.
@@ -75,9 +75,9 @@ Loop:
 		case msg := <-s.rtm.IncomingEvents:
 			switch ev := msg.Data.(type) {
 			case *slack.HelloEvent:
-				log.Println("slackbot: hello dave.")
+				log.Println("slackbot: hello world.")
 			case *slack.ConnectedEvent:
-				log.Println("slackbot: I'm online dave.")
+				log.Println("slackbot: I'm online.")
 				for _, ch := range ev.Info.Channels {
 					log.Printf("slackbot: joined channel %s\n", ch.Name)
 					s.rtm.SendMessage(
@@ -96,7 +96,7 @@ Loop:
 					supBot.Write([]byte(strings.TrimPrefix(ev.Text, s.botUID)))
 				}
 			case *slack.InvalidAuthEvent:
-				log.Println("supbot: I seem to be disconnected, can't let you do that.")
+				log.Println("supbot: I seem to be disconnected or unauthorized. Can't let you do that.")
 				break Loop
 			}
 		}

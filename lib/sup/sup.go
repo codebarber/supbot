@@ -20,7 +20,7 @@ import (
 	"os"
 	"strings"
 
-	stackup "github.com/gophergala2016/supbot/Godeps/_workspace/src/github.com/pressly/sup"
+	stackup "github.com/soulshake/supbot/Godeps/_workspace/src/github.com/pressly/sup"
 )
 
 // Sup represents a CLI sup command. It has methods to set it up and

@@ -8,9 +8,9 @@ import (
 	"log"
 	"os"
 
-	"github.com/gophergala2016/supbot/Godeps/_workspace/src/github.com/boltdb/bolt"
-	"github.com/gophergala2016/supbot/lib/git"
-	"github.com/gophergala2016/supbot/lib/sup"
+	"github.com/soulshake/supbot/Godeps/_workspace/src/github.com/boltdb/bolt"
+	"github.com/soulshake/supbot/lib/git"
+	"github.com/soulshake/supbot/lib/sup"
 )
 
 var space = []byte(` `)
@@ -128,13 +128,13 @@ func (h *Hal) Write(cmd []byte) (n int, err error) {
 			// TODO: grab branch name from URL, if any.
 			repo, err := git.Clone(h.repo)
 			if err != nil {
-				h.out.Write([]byte(fmt.Sprintf("I'm sorry Dave, %v", err)))
+				h.out.Write([]byte(fmt.Sprintf("I'm sorry, %v", err)))
 				h.out.Write([]byte("Clone failed."))
 				return l, err
 			}
 
 			if err := repo.Checkout("master"); err != nil {
-				h.out.Write([]byte(fmt.Sprintf("I'm sorry Dave, %v", err)))
+				h.out.Write([]byte(fmt.Sprintf("I'm sorry, %v", err)))
 				h.out.Write([]byte("Check out failed."))
 				return l, err
 			}
@@ -158,7 +158,7 @@ func (h *Hal) Write(cmd []byte) (n int, err error) {
 
 			err = cmd.Exec()
 			if err != nil {
-				h.out.Write([]byte(fmt.Sprintf("I'm sorry Dave, %v", err)))
+				h.out.Write([]byte(fmt.Sprintf("I'm sorry, %v", err)))
 				return l, err
 			}
 

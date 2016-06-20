@@ -3,57 +3,50 @@
 
 env: # Environment variables for the commands
   NAME: supbot
-  REPO: github.com/gophergala2016/supbot
+  REPO: github.com/soulshake/supbot
   BRANCH: master
   IMAGE: supbot
-  WORKDIR: /home/deploy/workdir
-  SLACK_TOKEN: xoxb-19232920311-vb7KYcw8EpdfcN9Qz3v7cWpl
+  WORKDIR: /home/deploy/murica
+  SLACK_TOKEN: $SLACK_TOKEN
 
 networks: # Groups of hosts
   local:
     hosts:
       - localhost
-  prod:
+  staging:
     hosts:
-      - deploy@162.243.9.244
+      - deploy@www.tillr.xyz
 
 commands: # Named set of commands to be run remotely
   ping:
     desc: Print uname and current date/time.
-    run: uname -a; date
+    run: uname -a; date; pwd
   check:
-    run: rm -rf $WORKDIR/$NAME && mkdir -p $WORKDIR/$NAME
+    run: echo rm -rf $WORKDIR/$NAME && mkdir -p $WORKDIR/$NAME
   upload:
     upload:
       - src: ./
         dst: $WORKDIR/$NAME
   pull:
-    run: git clone https://github.com/gophergala2016/supbot.git $WORKDIR/$NAME
+    run: docker-compose pull
   build:
-    run: cd $WORKDIR/$NAME && docker build -t $NAME .
+    run: docker-compose build
   image:
     run: docker images | grep $NAME
   stop:
-    run: docker stop $NAME || exit 0
+    run: docker-compose down || exit 0
   rm:
-    run: docker rm $NAME || exit 0
+    run: docker-compose rm $NAME || exit 0
   start:
-    run: docker start $NAME || exit 0
+    run: docker-compose up -d $NAME || exit 0
   run:
     run: >
-      mkdir -p /home/deploy/data && cd $WORKDIR/$NAME && docker run \
-        -d \
-        -e SLACK_TOKEN=$SLACK_TOKEN \
-        --restart=always \
-        -v /home/deploy/.ssh:/root/.ssh \
-        -v /home/deploy/data:/var/supbot \
-        --name $NAME \
-        -t $NAME
+      docker-compose up -d
   restart-nohup:
     run: >
-      nohup sh -c '(docker stop $NAME || exit 0) &&
-      (docker rm $NAME || exit 0) &&
-      mkdir -p /home/deploy/data && cd $WORKDIR/$NAME && docker run \
+      nohup sh -c '(docker-compose stop $NAME || exit 0) &&
+      (docker-compose rm $NAME || exit 0) &&
+      mkdir -p /home/deploy/data && cd $WORKDIR/$NAME && docker-compose run \
         -d \
         -e SLACK_TOKEN=$SLACK_TOKEN \
         --restart=always \
@@ -62,9 +55,9 @@ commands: # Named set of commands to be run remotely
         --name $NAME \
         -t $NAME'
   ps:
-    run: docker ps | grep $NAME
+    run: docker-compose ps | grep $NAME
   logs:
-    run: docker logs $NAME
+    run: docker-compose logs $NAME
   install:
     run: sudo apt-get update && apt-get install -y git vim tmux
   reboot:

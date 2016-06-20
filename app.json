@@ -1,14 +1,13 @@
 {
-  "name": "supbot-gophergala2016",
+  "name": "supbot-soulshake",
   "description": "Chatops slack bot for Sup",
   "keywords": [
     "sup",
     "go",
-    "gophergala2016",
     "chatops"
   ],
   "image": "heroku/go:1.5",
-  "mount_dir": "src/github.com/gophergala2016/supbot/cmd/supbot",
-  "website": "http://github.com/gophergala2016/supbot",
-  "repository": "http://github.com/gophergala2016/supbot"
+  "mount_dir": "src/github.com/soulshake/supbot/cmd/supbot",
+  "website": "http://github.com/soulshake/supbot",
+  "repository": "http://github.com/soulshake/supbot"
 }

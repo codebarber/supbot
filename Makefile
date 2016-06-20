@@ -1,6 +1,6 @@
 .PHONY: help run build build_pkgs install clean
 
-SLACK_TOKEN ?= xoxb-19232920311-vb7KYcw8EpdfcN9Qz3v7cWpl
+SLACK_TOKEN ?= $(SLACK_TOKEN)
 
 help:
 	@echo "run:     Run code in dev mode."
@@ -31,10 +31,10 @@ clean:
 	@rm -rf ./bin
 
 deps:
-	@glock sync -n github.com/gophergala2016/supbot < Glockfile
+	@glock sync -n github.com/soulshake/supbot < Glockfile
 
 update_deps:
-	@glock save -n github.com/gophergala2016/supbot > Glockfile
+	@glock save -n github.com/soulshake/supbot > Glockfile
 
 docker:
 	docker build -t supbot .
